@@ -1,0 +1,51 @@
+﻿<Window x:Class="DesktopUI.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:DesktopUI"
+        mc:Ignorable="d"
+        Title="Private Contact Manager" Height="450" Width="800">
+    <Grid Margin="0,0,0,0">
+        <TabControl x:Name="tabControl" HorizontalAlignment="Stretch" Margin="0,0,0,0" VerticalAlignment="Stretch" Grid.Column="0">
+            <TabControl.Resources>
+                <local:TabSizeConverter x:Key="tabSizeConverter" />
+                <Style TargetType="{x:Type TabItem}">
+                    <Setter Property="Width">
+                        <Setter.Value>
+                            <MultiBinding Converter="{StaticResource tabSizeConverter}">
+                                <Binding RelativeSource="{RelativeSource Mode=FindAncestor, AncestorType={x:Type TabControl}}" />
+                                <Binding RelativeSource="{RelativeSource Mode=FindAncestor, AncestorType={x:Type TabControl}}" Path="ActualWidth" />
+                            </MultiBinding>
+                        </Setter.Value>
+                    </Setter>
+                </Style>
+            </TabControl.Resources>
+
+            <TabItem Header="Contacts" HorizontalAlignment="Stretch">
+                <Grid Background="#FFE5E5E5">
+                </Grid>
+            </TabItem>
+            <TabItem Header="Calender">
+                <Grid Background="#FFE5E5E5">
+                    <Calendar VerticalAlignment="Stretch" HorizontalAlignment="Stretch"></Calendar>
+                </Grid>
+            </TabItem>
+            <TabItem Header="Settings">
+                <Grid Background="#FFFFFFFF" Margin="10, 10, 10, 0">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition></ColumnDefinition>
+                        <ColumnDefinition></ColumnDefinition>
+                    </Grid.ColumnDefinitions>
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="50"></RowDefinition>
+                        <RowDefinition></RowDefinition>
+                    </Grid.RowDefinitions>
+
+                    <Label Grid.Column="0" Grid.Row="0" VerticalAlignment="Center">Language:</Label>
+                    <ComboBox Grid.Column="1" Grid.Row="0" VerticalAlignment="Center"></ComboBox>
+                </Grid>
+            </TabItem>
+        </TabControl>
+    </Grid>
+</Window>
