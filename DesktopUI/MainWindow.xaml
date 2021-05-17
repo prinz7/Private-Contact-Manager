@@ -5,10 +5,11 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:DesktopUI"
         mc:Ignorable="d"
-        Title="Private Contact Manager" Height="500" Width="1000" MinHeight="300" MinWidth="700">
+        Title="Private Contact Manager" Height="500" Width="1000" MinHeight="300" MinWidth="800">
     <Window.Resources>
         <local:ForenameTextDecorationConverter x:Key="forenameTextDecorationConverter" />
         <local:SurnameTextDecorationConverter x:Key="surnameTextDecorationConverter" />
+        <ObjectDataProvider x:Key="LangResources" ObjectType="{x:Type local:LanguageResources}" MethodName="GetResourceInstance"/>
     </Window.Resources>
 
     <Grid>
@@ -33,7 +34,7 @@
                     </Style>
                 </TabControl.Resources>
 
-                <TabItem Header="Contacts">
+                <TabItem Header="{Binding Path=Contacts, Source={StaticResource LangResources}}">
                     <Grid Background="#FFE5E5E5">
                         <Grid.RowDefinitions>
                             <RowDefinition Height="30"></RowDefinition>
@@ -46,8 +47,8 @@
                                 <ColumnDefinition Width="*"></ColumnDefinition>
                             </Grid.ColumnDefinitions>
 
-                            <Button Name="buttonAddContact" Grid.Column="0">Add Contact</Button>
-                            <TextBlock Name="labelSearch" Grid.Column="1" HorizontalAlignment="Right" VerticalAlignment="Center" Margin="0, 0, 10, 0">Search:</TextBlock>
+                            <Button Name="buttonAddContact" Grid.Column="0" Content="{Binding Path=AddContact, Source={StaticResource LangResources}}"></Button>
+                            <TextBlock Name="labelSearch" Grid.Column="1" HorizontalAlignment="Right" VerticalAlignment="Center" Margin="0, 0, 10, 0" Text="{Binding Path=Search, Source={StaticResource LangResources}}"></TextBlock>
                             <TextBox Name="textBoxSearch" Grid.Column="2" VerticalAlignment="Stretch" HorizontalAlignment="Stretch" TextAlignment="Right"></TextBox>
                         </Grid>
                         <ListView Name="listViewContacts" Grid.Row="1">
@@ -78,7 +79,7 @@
                         </ListView>
                     </Grid>
                 </TabItem>
-                <TabItem Header="Calender">
+                <TabItem Header="{Binding Path=Calendar, Source={StaticResource LangResources}}">
                     <Grid Background="#FFE5E5E5">
                         <Grid.ColumnDefinitions>
                             <ColumnDefinition Width="2*"></ColumnDefinition>
@@ -92,7 +93,7 @@
                         </Viewbox>
                     </Grid>
                 </TabItem>
-                <TabItem Header="Settings">
+                <TabItem Header="{Binding Path=Settings, Source={StaticResource LangResources}}">
                     <Grid Background="#FFFFFFFF" Margin="10, 10, 10, 0">
                         <Grid.ColumnDefinitions>
                             <ColumnDefinition></ColumnDefinition>
@@ -102,7 +103,7 @@
                             <RowDefinition Height="50"></RowDefinition>
                         </Grid.RowDefinitions>
 
-                        <Label Grid.Column="0" Grid.Row="0" VerticalAlignment="Center">Language:</Label>
+                        <Label Grid.Column="0" Grid.Row="0" VerticalAlignment="Center" Content="{Binding Path=Language, Source={StaticResource LangResources}}"></Label>
                         <ComboBox Grid.Column="1" Grid.Row="0" VerticalAlignment="Center"></ComboBox>
                     </Grid>
                 </TabItem>
@@ -111,9 +112,9 @@
 
         <Grid Name="gridEditContact" Visibility="Visible">
             <Grid.ColumnDefinitions>
-                <ColumnDefinition Width="100"></ColumnDefinition>
+                <ColumnDefinition Width="110"></ColumnDefinition>
                 <ColumnDefinition Width="*"></ColumnDefinition>
-                <ColumnDefinition Width="100"></ColumnDefinition>
+                <ColumnDefinition Width="110"></ColumnDefinition>
                 <ColumnDefinition Width="*"></ColumnDefinition>
             </Grid.ColumnDefinitions>
             <Grid.RowDefinitions>
@@ -124,26 +125,26 @@
                 <RowDefinition Height="50"></RowDefinition>
             </Grid.RowDefinitions>
 
-            <TextBlock Name="labelForename" Grid.Column="0" Grid.Row="0" Margin="10, 10, 0, 0">Forename:</TextBlock>
+            <TextBlock Name="labelForename" Grid.Column="0" Grid.Row="0" Margin="10, 10, 0, 0" Text="{Binding Path=Forename, Source={StaticResource LangResources}}"></TextBlock>
             <TextBox Name="textBoxForename" Grid.Column="1" Grid.Row="0" VerticalAlignment="Top" Margin="0, 10, 10, 0"></TextBox>
 
-            <TextBlock Name="labelSurname" Grid.Column="2" Grid.Row="0" Margin="10, 10, 0, 0">Surname:</TextBlock>
+            <TextBlock Name="labelSurname" Grid.Column="2" Grid.Row="0" Margin="10, 10, 0, 0" Text="{Binding Path=Surname, Source={StaticResource LangResources}}"></TextBlock>
             <TextBox Name="textBoxSurname" Grid.Column="3" Grid.Row="0" VerticalAlignment="Top" Margin="0, 10, 10, 0"></TextBox>
 
-            <TextBlock Name="labelBirthday" Grid.Column="0" Grid.Row="1" Margin="10, 10, 0, 0">Birthday:</TextBlock>
+            <TextBlock Name="labelBirthday" Grid.Column="0" Grid.Row="1" Margin="10, 10, 0, 0" Text="{Binding Path=Birthday, Source={StaticResource LangResources}}"></TextBlock>
             <WrapPanel Grid.Column="1" Grid.Row="1" Margin="0, 10, 10, 0">
                 <ComboBox Name="comboBirthdayDay" Width="50" Margin="0, 0, 5, 0"></ComboBox>
                 <ComboBox Name="comboBirthdayMonth" Width="50" Margin="0, 0, 5, 0"></ComboBox>
                 <ComboBox Name="comboBirthdayYear" Width="80" Margin="0, 0, 5, 0"></ComboBox>
             </WrapPanel>
 
-            <TextBlock Name="labelOrganization" Grid.Column="2" Grid.Row="1" Margin="10, 10, 0, 0">Organization:</TextBlock>
+            <TextBlock Name="labelOrganization" Grid.Column="2" Grid.Row="1" Margin="10, 10, 0, 0" Text="{Binding Path=Organization, Source={StaticResource LangResources}}"></TextBlock>
             <TextBox Name="textBoxOrganization" Grid.Column="3" Grid.Row="1" VerticalAlignment="Top" Margin="0, 10, 10, 0"></TextBox>
 
-            <TextBlock Name="labelMailAddresses" Grid.Column="0" Grid.Row="2" Margin="10, 10, 0, 0">Mail addresses:</TextBlock>
+            <TextBlock Name="labelMailAddresses" Grid.Column="0" Grid.Row="2" Margin="10, 10, 0, 0" Text="{Binding Path=MailAddresses, Source={StaticResource LangResources}}"></TextBlock>
             <Grid Grid.Column="1" Grid.Row="2" Margin="0, 10, 10, 0" VerticalAlignment="Stretch">
                 <Grid.ColumnDefinitions>
-                    <ColumnDefinition Width="100"></ColumnDefinition>
+                    <ColumnDefinition Width="150"></ColumnDefinition>
                     <ColumnDefinition Width="*"></ColumnDefinition>
                     <ColumnDefinition Width="100"></ColumnDefinition>
                 </Grid.ColumnDefinitions>
@@ -153,14 +154,14 @@
                 </Grid.RowDefinitions>
                 <ComboBox Name="comboMailType" Grid.Column="0" Margin="0, 0, 5, 0" HorizontalAlignment="Stretch"></ComboBox>
                 <TextBox Name="textBoxMail" Grid.Column="1" Margin="0, 0, 5, 0"></TextBox>
-                <Button Name="buttonAddMail" Grid.Column="2">Hinzufügen</Button>
+                <Button Name="buttonAddMail" Grid.Column="2" Content="{Binding Path=AddMail, Source={StaticResource LangResources}}"></Button>
                 <ListView Name="listMailAddresses" Grid.Row="1" Grid.Column="0" Grid.ColumnSpan="3" Margin="0, 5, 0, 0"></ListView>
             </Grid>
 
-            <TextBlock Name="labelPhoneNumbers" Grid.Column="2" Grid.Row="2" Margin="10, 10, 0, 0">Phone numbers:</TextBlock>
+            <TextBlock Name="labelPhoneNumbers" Grid.Column="2" Grid.Row="2" Margin="10, 10, 0, 0" Text="{Binding Path=PhoneNumbers, Source={StaticResource LangResources}}"></TextBlock>
             <Grid Grid.Column="3" Grid.Row="2" Margin="0, 10, 10, 0" VerticalAlignment="Stretch">
                 <Grid.ColumnDefinitions>
-                    <ColumnDefinition Width="100"></ColumnDefinition>
+                    <ColumnDefinition Width="150"></ColumnDefinition>
                     <ColumnDefinition Width="*"></ColumnDefinition>
                     <ColumnDefinition Width="100"></ColumnDefinition>
                 </Grid.ColumnDefinitions>
@@ -170,11 +171,11 @@
                 </Grid.RowDefinitions>
                 <ComboBox Name="comboPhoneType" Grid.Column="0" Margin="0, 0, 5, 0" HorizontalAlignment="Stretch"></ComboBox>
                 <TextBox Name="textBoxPhoneNumber" Grid.Column="1" Margin="0, 0, 5, 0"></TextBox>
-                <Button Name="buttonAddPhoneNumber" Grid.Column="2">Hinzufügen</Button>
+                <Button Name="buttonAddPhoneNumber" Grid.Column="2" Content="{Binding Path=AddPhone, Source={StaticResource LangResources}}"></Button>
                 <ListView Name="listPhoneNumbers" Grid.Row="1" Grid.Column="0" Grid.ColumnSpan="3" Margin="0, 5, 0, 0"></ListView>
             </Grid>
 
-            <TextBlock Name="labelComment" Grid.Column="0" Grid.Row="3" Margin="10, 10, 0, 0">Comments:</TextBlock>
+            <TextBlock Name="labelComment" Grid.Column="0" Grid.Row="3" Margin="10, 10, 0, 0" Text="{Binding Path=Comments, Source={StaticResource LangResources}}"></TextBlock>
             <TextBox Name="textBoxComment" Grid.Row="3" Grid.Column="1" Grid.ColumnSpan="3" Margin="0, 10, 10, 0" TextWrapping="Wrap" AcceptsReturn="True"></TextBox>
 
             <Grid Grid.Row="4" Grid.Column="1" Grid.ColumnSpan="3" Margin="0, 10, 10, 10">
@@ -184,9 +185,9 @@
                     <ColumnDefinition Width="150"></ColumnDefinition>
                 </Grid.ColumnDefinitions>
 
-                <Button Name="buttonCancel" Grid.Column="0">Cancel</Button>
-                <Button Name="buttonDelete" Grid.Column="1" MaxWidth="150">Delete Contact</Button>
-                <Button Name="buttonSave" Grid.Column="2">Save</Button>
+                <Button Name="buttonCancel" Grid.Column="0" Content="{Binding Path=Cancel, Source={StaticResource LangResources}}"></Button>
+                <Button Name="buttonDelete" Grid.Column="1" MaxWidth="150" Content="{Binding Path=DeleteContact, Source={StaticResource LangResources}}"></Button>
+                <Button Name="buttonSave" Grid.Column="2" Content="{Binding Path=SaveContact, Source={StaticResource LangResources}}"></Button>
             </Grid>
         </Grid>
     </Grid>

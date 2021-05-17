@@ -2,8 +2,9 @@
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
+using System.Globalization;
+using System.Linq;
 using System.Windows;
-using System.Windows.Controls;
 using System.Windows.Data;
 
 namespace DesktopUI
@@ -13,6 +14,9 @@ namespace DesktopUI
         public MainWindow()
         {
             InitializeComponent();
+            FillStaticContent();
+
+            //SetCulture(new CultureInfo("en-US"));
         }
 
         public void SetContacts(List<Contact> contacts)
@@ -24,59 +28,38 @@ namespace DesktopUI
             view.GroupDescriptions.Add(new PropertyGroupDescription("FirstCharacter"));
             view.SortDescriptions.Add(new SortDescription("FullName", ListSortDirection.Ascending));
         }
-    }
 
-    public class TabSizeConverter : IMultiValueConverter
-    {
-        public object Convert(object[] values, Type targetType, object parameter, System.Globalization.CultureInfo culture)
+        public void SetCulture(CultureInfo culture)
         {
-            var tabControl = values[0] as TabControl;
-            double width = tabControl.ActualWidth / tabControl.Items.Count;
-            return (width <= 1) ? 0 : (width - 1.4);
+            System.Threading.Thread.CurrentThread.CurrentUICulture = culture;
+            System.Threading.Thread.CurrentThread.CurrentCulture = culture;
+
+            (Resources["LangResources"] as ObjectDataProvider).Refresh();
+
+            FillStaticContent();
         }
 
-        public object[] ConvertBack(object value, Type[] targetTypes, object parameter, System.Globalization.CultureInfo culture)
+        private void FillStaticContent()
         {
-            throw new NotSupportedException();
-        }
-    }
-
-    public abstract class BoolToTextDecorationConverter : IValueConverter
-    {
-        public object Convert(object value, Type targetType, object parameter, System.Globalization.CultureInfo culture)
-        {
-            if ((bool)value)
+            comboMailType.ItemsSource = Enum.GetValues<MailType>().Select(type => Mail.GetMailTypeString(type));
+            if (comboMailType.SelectedIndex == -1)
             {
-                return TrueTextDecorations;
+                comboMailType.SelectedIndex = 0;
             }
 
-            return FalseTextDecorations;
-        }
-
-        public object ConvertBack(object value, Type targetType, object parameter, System.Globalization.CultureInfo culture)
-        {
-            throw new NotSupportedException();
-        }
-
-        protected TextDecorationCollection TrueTextDecorations;
-        protected TextDecorationCollection FalseTextDecorations;
-    }
-
-    public class ForenameTextDecorationConverter : BoolToTextDecorationConverter
-    {
-        public ForenameTextDecorationConverter() : base()
-        {
-            TrueTextDecorations = TextDecorations.Underline;
-            FalseTextDecorations = null;
+            comboPhoneType.ItemsSource = Enum.GetValues<PhoneNumberType>().Select(type => PhoneNumber.GetPhoneNumberTypeString(type));
+            if (comboPhoneType.SelectedIndex == -1)
+            {
+                comboPhoneType.SelectedIndex = 0;
+            }
         }
     }
 
-    public class SurnameTextDecorationConverter : BoolToTextDecorationConverter
+    public class LanguageResources
     {
-        public SurnameTextDecorationConverter() : base()
+        public Resources GetResourceInstance()
         {
-            TrueTextDecorations = null;
-            FalseTextDecorations = TextDecorations.Underline;
+            return new Resources();
         }
     }
 }

@@ -12,5 +12,22 @@
     {
         public string Number { get; set; }
         public PhoneNumberType NumberType { get; set; }
+
+        public static string GetPhoneNumberTypeString(PhoneNumberType type)
+        {
+            switch (type)
+            {
+                case PhoneNumberType.PRIVATE:
+                    return Resources.PhonePrivate;
+                case PhoneNumberType.PRIVATE_MOBILE:
+                    return Resources.PhonePrivateMobile;
+                case PhoneNumberType.BUSINESS:
+                    return Resources.PhoneBusiness;
+                case PhoneNumberType.BUSINESS_MOBILE:
+                    return Resources.PhoneBusinessMobile;
+                default:
+                    return "";
+            }
+        }
     }
 }
