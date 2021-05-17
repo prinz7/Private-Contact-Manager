@@ -11,12 +11,28 @@ namespace DesktopUI
 {
     public partial class MainWindow : Window
     {
+        public enum UILanguage
+        {
+            GERMAN, ENGLISH
+        }
+
+        private static readonly Dictionary<UILanguage, CultureInfo> CultureInfoByLanguage = new Dictionary<UILanguage, CultureInfo>
+        {
+            { UILanguage.ENGLISH, new CultureInfo("en-US") },
+            { UILanguage.GERMAN,  new CultureInfo("de-DE") }
+        };
+
+        public static readonly Dictionary<UILanguage, string> LanguageNameByLanguage = new Dictionary<UILanguage, string>
+        {
+            { UILanguage.ENGLISH, "English" },
+            { UILanguage.GERMAN,  "Deutsch" }
+        };
+
         public MainWindow()
         {
             InitializeComponent();
             FillStaticContent();
-
-            //SetCulture(new CultureInfo("en-US"));
+            AddEventhandler();
         }
 
         public void SetContacts(List<Contact> contacts)
@@ -29,12 +45,28 @@ namespace DesktopUI
             view.SortDescriptions.Add(new SortDescription("FullName", ListSortDirection.Ascending));
         }
 
-        public void SetCulture(CultureInfo culture)
+        private void AddEventhandler()
+        {
+            comboLanguage.SelectionChanged += ComboLanguage_SelectionChanged;
+        }
+
+        private void ComboLanguage_SelectionChanged(object sender, System.Windows.Controls.SelectionChangedEventArgs e)
+        {
+            var lang = e.AddedItems[0] as UILanguage? ?? UILanguage.ENGLISH;
+            SetCulture(CultureInfoByLanguage[lang]);
+        }
+
+        private void SetCulture(CultureInfo culture)
         {
             System.Threading.Thread.CurrentThread.CurrentUICulture = culture;
             System.Threading.Thread.CurrentThread.CurrentCulture = culture;
 
             (Resources["LangResources"] as ObjectDataProvider).Refresh();
+
+            // force refresh of calendar:
+            var currentDisplayedDate = calendar.DisplayDate;
+            calendar.DisplayDate = currentDisplayedDate.AddDays(1);
+            calendar.DisplayDate = currentDisplayedDate;
 
             FillStaticContent();
         }
@@ -52,6 +84,8 @@ namespace DesktopUI
             {
                 comboPhoneType.SelectedIndex = 0;
             }
+
+            comboLanguage.ItemsSource = Enum.GetValues<UILanguage>();
         }
     }
 

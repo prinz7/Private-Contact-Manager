@@ -9,11 +9,12 @@
     <Window.Resources>
         <local:ForenameTextDecorationConverter x:Key="forenameTextDecorationConverter" />
         <local:SurnameTextDecorationConverter x:Key="surnameTextDecorationConverter" />
+        <local:LanguageToStringConverter x:Key="languageNameConverter" />
         <ObjectDataProvider x:Key="LangResources" ObjectType="{x:Type local:LanguageResources}" MethodName="GetResourceInstance"/>
     </Window.Resources>
 
     <Grid>
-        <Grid Margin="0,0,0,0" Name="gridMainWindow" Visibility="Hidden">
+        <Grid Margin="0,0,0,0" Name="gridMainWindow" Visibility="Visible">
             <TabControl x:Name="tabControl" Margin="0,0,0,0" Grid.Row="0" Grid.Column="0" TabStripPlacement="Bottom" FontSize="18" FontWeight="Bold" >
                 <TabControl.Resources>
                     <local:TabSizeConverter x:Key="tabSizeConverter" />
@@ -88,7 +89,7 @@
                         <ListView Grid.Column="0" HorizontalAlignment="Stretch">
                         </ListView>
                         <Viewbox Grid.Column="1">
-                            <Calendar VerticalAlignment="Stretch" HorizontalAlignment="Stretch">
+                            <Calendar Name="calendar" VerticalAlignment="Stretch" HorizontalAlignment="Stretch">
                             </Calendar>
                         </Viewbox>
                     </Grid>
@@ -104,13 +105,19 @@
                         </Grid.RowDefinitions>
 
                         <Label Grid.Column="0" Grid.Row="0" VerticalAlignment="Center" Content="{Binding Path=Language, Source={StaticResource LangResources}}"></Label>
-                        <ComboBox Grid.Column="1" Grid.Row="0" VerticalAlignment="Center"></ComboBox>
+                        <ComboBox Name="comboLanguage" Grid.Column="1" Grid.Row="0" VerticalAlignment="Center">
+                            <ComboBox.ItemTemplate>
+                                <DataTemplate>
+                                    <TextBlock Text="{Binding Path=., Converter={StaticResource languageNameConverter}}"></TextBlock>
+                                </DataTemplate>
+                            </ComboBox.ItemTemplate>
+                        </ComboBox>
                     </Grid>
                 </TabItem>
             </TabControl>
         </Grid>
 
-        <Grid Name="gridEditContact" Visibility="Visible">
+        <Grid Name="gridEditContact" Visibility="Collapsed">
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="110"></ColumnDefinition>
                 <ColumnDefinition Width="*"></ColumnDefinition>

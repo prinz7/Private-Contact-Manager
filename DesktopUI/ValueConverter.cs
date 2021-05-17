@@ -20,6 +20,19 @@ namespace DesktopUI
         }
     }
 
+    public class LanguageToStringConverter : IValueConverter
+    {
+        public object Convert(object value, Type targetType, object parameter, System.Globalization.CultureInfo culture)
+        {
+            return MainWindow.LanguageNameByLanguage[value as MainWindow.UILanguage? ?? MainWindow.UILanguage.ENGLISH];
+        }
+
+        public object ConvertBack(object value, Type targetType, object parameter, System.Globalization.CultureInfo culture)
+        {
+            throw new NotSupportedException();
+        }
+    }
+
     public abstract class BoolToTextDecorationConverter : IValueConverter
     {
         public object Convert(object value, Type targetType, object parameter, System.Globalization.CultureInfo culture)
