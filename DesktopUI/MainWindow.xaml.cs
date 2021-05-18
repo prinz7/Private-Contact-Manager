@@ -13,7 +13,7 @@ namespace DesktopUI
     {
         public enum UILanguage
         {
-            GERMAN, ENGLISH
+            ENGLISH, GERMAN
         }
 
         private static readonly Dictionary<UILanguage, CultureInfo> CultureInfoByLanguage = new Dictionary<UILanguage, CultureInfo>
@@ -31,7 +31,7 @@ namespace DesktopUI
         public MainWindow()
         {
             InitializeComponent();
-            FillStaticContent();
+            SetCulture(System.Threading.Thread.CurrentThread.CurrentCulture);
             AddEventhandler();
         }
 
@@ -58,8 +58,20 @@ namespace DesktopUI
 
         private void SetCulture(CultureInfo culture)
         {
-            System.Threading.Thread.CurrentThread.CurrentUICulture = culture;
-            System.Threading.Thread.CurrentThread.CurrentCulture = culture;
+            var matchingCultureInfos = CultureInfoByLanguage.Where(kv => kv.Value.Name == culture.Name).ToList();
+            if (!matchingCultureInfos.Any())
+            {
+                matchingCultureInfos = CultureInfoByLanguage.Where(kv => kv.Value.TwoLetterISOLanguageName == culture.TwoLetterISOLanguageName).ToList();
+            }
+            if (!matchingCultureInfos.Any())
+            {
+                matchingCultureInfos.AddRange(CultureInfoByLanguage.Where(kv => kv.Key == UILanguage.ENGLISH));
+            }
+
+            var cultureInfoToUse = matchingCultureInfos.FirstOrDefault().Value;
+
+            System.Threading.Thread.CurrentThread.CurrentUICulture = cultureInfoToUse;
+            System.Threading.Thread.CurrentThread.CurrentCulture = cultureInfoToUse;
 
             (Resources["LangResources"] as ObjectDataProvider).Refresh();
 
@@ -86,6 +98,8 @@ namespace DesktopUI
             }
 
             comboLanguage.ItemsSource = Enum.GetValues<UILanguage>();
+            var currentLanguage = CultureInfoByLanguage.FirstOrDefault(kv => kv.Value.ThreeLetterISOLanguageName == System.Threading.Thread.CurrentThread.CurrentCulture.ThreeLetterISOLanguageName).Key;
+            comboLanguage.SelectedIndex = (comboLanguage.ItemsSource as IEnumerable<UILanguage>).ToList().IndexOf(currentLanguage);
         }
     }
 
