@@ -19,9 +19,11 @@ namespace PrivateContactManager
         private static void MainLoop()
         {
             var mainWindow = new MainWindow();
+            var windowController = new WindowController(ref mainWindow);
+
             mainWindow.Show();
 
-            mainWindow.Closed += (sender2, e2) => mainWindow.Dispatcher.InvokeShutdown();
+            mainWindow.Closed += (_, _) => mainWindow.Dispatcher.InvokeShutdown();
 
             AddTestValues(ref mainWindow);
 

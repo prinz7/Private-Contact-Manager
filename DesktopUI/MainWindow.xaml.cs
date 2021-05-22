@@ -5,6 +5,7 @@ using System.ComponentModel;
 using System.Globalization;
 using System.Linq;
 using System.Windows;
+using System.Windows.Controls;
 using System.Windows.Data;
 
 namespace DesktopUI
@@ -14,6 +15,14 @@ namespace DesktopUI
         public enum UILanguage
         {
             ENGLISH, GERMAN
+        }
+
+        public enum ButtonInstance
+        {
+            MAIN_WINDOW_ADD_CONTACT,
+            CONTACT_WINDOW_CANCEL,
+            CONTACT_WINDOW_DELETE_CONTACT,
+            CONTACT_WINDOW_SAVE_CONTACT
         }
 
         private static readonly Dictionary<UILanguage, CultureInfo> CultureInfoByLanguage = new Dictionary<UILanguage, CultureInfo>
@@ -35,6 +44,17 @@ namespace DesktopUI
             AddEventhandler();
         }
 
+        public void AddEventHandler(ButtonInstance buttonInstance, Action cb)
+        {
+            var buttonExists = GetButton(buttonInstance, out var button);
+            if (!buttonExists)
+            {
+                return;
+            }
+
+            button.Click += (_, _) => { cb(); };
+        }
+
         public void SetContacts(List<Contact> contacts)
         {
             listViewContacts.ItemsSource = contacts;
@@ -43,6 +63,52 @@ namespace DesktopUI
 
             view.GroupDescriptions.Add(new PropertyGroupDescription("FirstCharacter"));
             view.SortDescriptions.Add(new SortDescription("FullName", ListSortDirection.Ascending));
+        }
+
+        public void ShowMainWindow()
+        {
+            gridMainWindow.Visibility = Visibility.Visible;
+            gridEditContact.Visibility = Visibility.Collapsed;
+        }
+
+        public void ShowAddContactWindow()
+        {
+            gridMainWindow.Visibility = Visibility.Collapsed;
+            gridEditContact.Visibility = Visibility.Visible;
+
+            buttonDeleteContact.Visibility = Visibility.Collapsed;
+        }
+
+        public void ShowEditContactWindow(Contact editedContact)
+        {
+            gridMainWindow.Visibility = Visibility.Collapsed;
+            gridEditContact.Visibility = Visibility.Visible;
+
+            buttonDeleteContact.Visibility = Visibility.Visible;
+
+            // TODO
+        }
+
+        private bool GetButton(ButtonInstance buttonInstance, out Button button)
+        {
+            switch (buttonInstance)
+            {
+                case ButtonInstance.MAIN_WINDOW_ADD_CONTACT:
+                    button = buttonAddContact;
+                    return true;
+                case ButtonInstance.CONTACT_WINDOW_CANCEL:
+                    button = buttonCancel;
+                    return true;
+                case ButtonInstance.CONTACT_WINDOW_DELETE_CONTACT:
+                    button = buttonDeleteContact;
+                    return true;
+                case ButtonInstance.CONTACT_WINDOW_SAVE_CONTACT:
+                    button = buttonSaveContact;
+                    return true;
+                default:
+                    button = null;
+                    return false;
+            }
         }
 
         private void AddEventhandler()
