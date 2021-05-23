@@ -142,6 +142,15 @@ namespace DesktopUI {
         }
         
         /// <summary>
+        ///   Sucht eine lokalisierte Zeichenfolge, die on first-name basis ähnelt.
+        /// </summary>
+        public static string FirstNameBasis {
+            get {
+                return ResourceManager.GetString("FirstNameBasis", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Sucht eine lokalisierte Zeichenfolge, die Forename: ähnelt.
         /// </summary>
         public static string Forename {

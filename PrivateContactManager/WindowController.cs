@@ -11,6 +11,8 @@ namespace PrivateContactManager
             window = mainWindow;
 
             AddEventHandler();
+
+            window.ShowMainWindow();
         }
 
         private void AddEventHandler()

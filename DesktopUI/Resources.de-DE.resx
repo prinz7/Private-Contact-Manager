@@ -144,6 +144,9 @@
   <data name="DeleteContact" xml:space="preserve">
     <value>Kontakt löschen</value>
   </data>
+  <data name="FirstNameBasis" xml:space="preserve">
+    <value>per Du</value>
+  </data>
   <data name="Forename" xml:space="preserve">
     <value>Vorname:</value>
   </data>
