@@ -55,6 +55,13 @@ namespace DesktopUI
             button.Click += (_, _) => { cb(); };
         }
 
+        public void AddEventHandlerComboboxBirthdayChanged(Action cb)
+        {
+            comboBirthdayDay.SelectionChanged += (_, _) => { cb(); };
+            comboBirthdayMonth.SelectionChanged += (_, _) => { cb(); };
+            comboBirthdayYear.SelectionChanged += (_, _) => { cb(); };
+        }
+
         public void SetContacts(List<Contact> contacts)
         {
             listViewContacts.ItemsSource = contacts;
@@ -87,6 +94,28 @@ namespace DesktopUI
             buttonDeleteContact.Visibility = Visibility.Visible;
 
             // TODO
+        }
+
+        public void GetSelectedBirthday (out int? day, out int? month, out int? year)
+        {
+            day = comboBirthdayDay.SelectedItem as int?;
+            month = comboBirthdayMonth.SelectedItem as int?;
+            year = comboBirthdayYear.SelectedItem as int?;
+        }
+
+        public void ResetSelectedBirthdayDay()
+        {
+            comboBirthdayDay.SelectedIndex = -1;
+        }
+
+        public void ResetSelectedBirthdayMonth()
+        {
+            comboBirthdayMonth.SelectedIndex = -1;
+        }
+
+        public void ResetSelectedBirthdayYear()
+        {
+            comboBirthdayYear.SelectedIndex = -1;
         }
 
         private bool GetButton(ButtonInstance buttonInstance, out Button button)
@@ -146,6 +175,10 @@ namespace DesktopUI
             calendar.DisplayDate = currentDisplayedDate.AddDays(1);
             calendar.DisplayDate = currentDisplayedDate;
 
+            var currentDisplayedBirthday = datePickerBirthday.DisplayDate;
+            datePickerBirthday.DisplayDate = currentDisplayedBirthday.AddDays(1);
+            datePickerBirthday.DisplayDate = currentDisplayedBirthday;
+
             FillStaticContent();
         }
 
@@ -166,6 +199,10 @@ namespace DesktopUI
             comboLanguage.ItemsSource = Enum.GetValues<UILanguage>();
             var currentLanguage = CultureInfoByLanguage.FirstOrDefault(kv => kv.Value.ThreeLetterISOLanguageName == System.Threading.Thread.CurrentThread.CurrentCulture.ThreeLetterISOLanguageName).Key;
             comboLanguage.SelectedIndex = (comboLanguage.ItemsSource as IEnumerable<UILanguage>).ToList().IndexOf(currentLanguage);
+
+            comboBirthdayDay.ItemsSource = Enumerable.Range(1, 31).ToList();
+            comboBirthdayMonth.ItemsSource = Enumerable.Range(1, 12).ToList();
+            comboBirthdayYear.ItemsSource = Enumerable.Range(1900, DateTime.Now.Year - 1900 + 1).Reverse().ToList();
         }
     }
 

@@ -3,9 +3,10 @@
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:sys="clr-namespace:System;assembly=mscorlib"
         xmlns:local="clr-namespace:DesktopUI"
         mc:Ignorable="d"
-        Title="Private Contact Manager" Height="500" Width="1000" MinHeight="300" MinWidth="800">
+        Title="Private Contact Manager" Height="500" Width="1000" MinHeight="350" MinWidth="800">
     <Window.Resources>
         <local:ForenameTextDecorationConverter x:Key="forenameTextDecorationConverter" />
         <local:SurnameTextDecorationConverter x:Key="surnameTextDecorationConverter" />
@@ -143,9 +144,16 @@
 
             <TextBlock Name="labelBirthday" Grid.Column="0" Grid.Row="2" Margin="10, 10, 0, 0" Text="{Binding Path=Birthday, Source={StaticResource LangResources}}"></TextBlock>
             <WrapPanel Grid.Column="1" Grid.Row="2" Margin="0, 10, 10, 0">
-                <ComboBox Name="comboBirthdayDay" Width="50" Margin="0, 0, 5, 0"></ComboBox>
-                <ComboBox Name="comboBirthdayMonth" Width="50" Margin="0, 0, 5, 0"></ComboBox>
-                <ComboBox Name="comboBirthdayYear" Width="80" Margin="0, 0, 5, 0"></ComboBox>
+                <ComboBox Name="comboBirthdayDay" Width="45" Margin="0, 0, 5, 0"></ComboBox>
+                <ComboBox Name="comboBirthdayMonth" Width="45" Margin="0, 0, 5, 0"></ComboBox>
+                <ComboBox Name="comboBirthdayYear" Width="60" Margin="0, 0, 5, 0"></ComboBox>
+                <DatePicker Name="datePickerBirthday" DisplayDateEnd="{x:Static sys:DateTime.Now}">
+                    <DatePicker.Resources>
+                        <Style TargetType="DatePickerTextBox">
+                            <Setter Property="Visibility" Value="Collapsed"></Setter>
+                        </Style>
+                    </DatePicker.Resources>
+                </DatePicker>
             </WrapPanel>
 
             <TextBlock Name="labelOrganization" Grid.Column="2" Grid.Row="2" Margin="10, 10, 0, 0" Text="{Binding Path=Organization, Source={StaticResource LangResources}}"></TextBlock>
