@@ -143,10 +143,36 @@ namespace DesktopUI
         private void AddEventhandler()
         {
             comboLanguage.SelectionChanged += ComboLanguage_SelectionChanged;
+
+            datePickerBirthday.SelectedDateChanged += DatePickerBirthday_SelectedDateChanged;
         }
 
-        private void ComboLanguage_SelectionChanged(object sender, System.Windows.Controls.SelectionChangedEventArgs e)
+        private void DatePickerBirthday_SelectedDateChanged(object sender, SelectionChangedEventArgs e)
         {
+            if (e.AddedItems.Count == 0)
+            {
+                return;
+            }
+
+            var selectedDate = e.AddedItems[0] as DateTime?;
+            if (selectedDate == null)
+            {
+                return;
+            }
+
+            comboBirthdayDay.SelectedItem = selectedDate.Value.Day;
+            comboBirthdayMonth.SelectedItem = selectedDate.Value.Month;
+            comboBirthdayYear.SelectedItem = selectedDate.Value.Year;
+        }
+
+        private void ComboLanguage_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+
+            if (e.AddedItems.Count == 0)
+            {
+                return;
+            }
+
             var lang = e.AddedItems[0] as UILanguage? ?? UILanguage.ENGLISH;
             SetCulture(CultureInfoByLanguage[lang]);
         }
