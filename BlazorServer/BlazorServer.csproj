@@ -5,6 +5,11 @@
     <Nullable>enable</Nullable>
     <ImplicitUsings>enable</ImplicitUsings>
     <AppendTargetFrameworkToOutputPath>false</AppendTargetFrameworkToOutputPath>
+    <UserSecretsId>124bb8b0-b5a2-4d4e-b9b3-1460226359db</UserSecretsId>
   </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Radzen.Blazor" Version="3.16.2" />
+  </ItemGroup>
 
 </Project>
