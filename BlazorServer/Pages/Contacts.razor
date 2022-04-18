@@ -10,27 +10,35 @@
 <RadzenDataGrid @ref="contactGrid" AllowFiltering="true" AllowColumnResize="true" FilterMode="FilterMode.Simple" AllowSorting="true" PageSize="10" AllowPaging="true" PagerHorizontalAlign="HorizontalAlign.Left" ShowPagingSummary="true"
     Data="@contacts" TItem="Contact" ColumnWidth="300px" LogicalFilterOperator="LogicalFilterOperator.Or">
     <Columns>
-        <RadzenDataGridColumn TItem="Contact" Property="Forename" Filterable="false" Title="Vorname" Frozen="true" Width="170px" TextAlign="TextAlign.Center" />
-        <RadzenDataGridColumn TItem="Contact" Property="Surname" Filterable="false" Title="Nachname" Frozen="true" Width="170px" TextAlign="TextAlign.Center" />
-        <RadzenDataGridColumn TItem="Contact" Property="Birthday" Filterable="false" Title="Geburtsdatum" Frozen="true" Width="170px" TextAlign="TextAlign.Center" />
-        <RadzenDataGridColumn TItem="Contact" Property="Organization" Filterable="false" Title="Organization" Frozen="true" Width="170px" TextAlign="TextAlign.Center" />
+        <RadzenDataGridColumn TItem="Contact" Property="Forename" Filterable="false" Title="Vorname" Frozen="true" Width="170px" TextAlign="TextAlign.Left" />
+        <RadzenDataGridColumn TItem="Contact" Property="Surname" Filterable="false" Title="Nachname" Frozen="true" Width="170px" TextAlign="TextAlign.Left" />
+        <RadzenDataGridColumn TItem="Contact" Property="Birthday" Filterable="false" Title="Geburtsdatum" Frozen="true" Width="170px" TextAlign="TextAlign.Left" />
+        <RadzenDataGridColumn TItem="Contact" Property="Organization" Filterable="false" Title="Organization" Frozen="true" Width="170px" TextAlign="TextAlign.Left" />
+        <RadzenDataGridColumn TItem="Contact" Filterable="false" Title="" Frozen="true" Width="100px" TextAlign="TextAlign.Left" Sortable="false">
+            <Template>
+                <button class="btn btn-primary" Style="width: 45px; height: 38px"><span class="oi oi-pencil"></span></button>
+                <button class="btn btn-primary" Style="width: 45px; height: 38px"><span class="oi oi-trash"></span></button>
+            </Template>
+        </RadzenDataGridColumn>
     </Columns>
 </RadzenDataGrid>
+
+<p></p>
 
 <button class="btn btn-primary" @onclick="AddContact">Add contact</button>
 
 @code {
     RadzenDataGrid<Contact> contactGrid = new RadzenDataGrid<Contact>();
-    IList<Contact> contacts = new List<Contact>()
+    List<Contact> contacts = new List<Contact>()
     {
         new Contact()
         {
-            Forename = "Hans",
-            Surname = "Zimmer",
-            Organization = "Wiener Opernhaus",
-            BirthdayDay = 17,
-            BirthdayMonth = 1,
-            BirthdayYear = 1999
+            Forename = "Walter",
+            Surname = "White",
+            Organization = "Blue Crystal Inc.",
+            BirthdayDay = 1,
+            BirthdayMonth = 3,
+            BirthdayYear = 1989
         }
     };
 
