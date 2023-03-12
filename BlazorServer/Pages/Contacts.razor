@@ -28,7 +28,7 @@
 <button class="btn btn-primary" @onclick="AddContact">Add contact</button>
 
 @code {
-    RadzenDataGrid<Contact> contactGrid = new RadzenDataGrid<Contact>();
+    RadzenDataGrid<Contact>? contactGrid = new RadzenDataGrid<Contact>();
     List<Contact> contacts = new List<Contact>()
     {
         new Contact()
